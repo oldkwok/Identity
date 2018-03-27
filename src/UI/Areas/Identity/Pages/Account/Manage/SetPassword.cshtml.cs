@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(SetPasswordModel<>))]
+    [IdentityDefaultUI(typeof(SetPasswordModel<,>))]
     public abstract class SetPasswordModel : PageModel
     {
         [BindProperty]
@@ -37,7 +37,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
         public virtual Task<IActionResult> OnPostAsync() => throw new NotImplementedException();
     }
 
-    internal class SetPasswordModel<TUser> : SetPasswordModel where TUser : IdentityUser
+    internal class SetPasswordModel<TUser, TKey> : SetPasswordModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly SignInManager<TUser> _signInManager;

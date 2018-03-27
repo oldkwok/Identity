@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(ExternalLoginsModel<>))]
+    [IdentityDefaultUI(typeof(ExternalLoginsModel<,>))]
     public abstract class ExternalLoginsModel : PageModel
     {
         public IList<UserLoginInfo> CurrentLogins { get; set; }
@@ -32,7 +32,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
         public virtual Task<IActionResult> OnGetLinkLoginCallbackAsync() => throw new NotImplementedException();
     }
 
-    internal class ExternalLoginsModel<TUser> : ExternalLoginsModel where TUser : IdentityUser
+    internal class ExternalLoginsModel<TUser, TKey> : ExternalLoginsModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly SignInManager<TUser> _signInManager;

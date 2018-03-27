@@ -8,13 +8,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
 {
-    [IdentityDefaultUI(typeof(ConfirmEmailModel<>))]
+    [IdentityDefaultUI(typeof(ConfirmEmailModel<,>))]
     public abstract class ConfirmEmailModel : PageModel
     {
         public virtual Task<IActionResult> OnGetAsync(string userId, string code) => throw new NotImplementedException();
     }
 
-    internal class ConfirmEmailModel<TUser> : ConfirmEmailModel where TUser : IdentityUser
+    internal class ConfirmEmailModel<TUser, TKey> : ConfirmEmailModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
 

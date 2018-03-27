@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(ChangePasswordModel<>))]
+    [IdentityDefaultUI(typeof(ChangePasswordModel<,>))]
     public abstract class ChangePasswordModel : PageModel
     {
         [BindProperty]
@@ -43,7 +43,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
         public virtual Task<IActionResult> OnPostAsync() => throw new NotImplementedException();
     }
 
-    internal class ChangePasswordModel<TUser> : ChangePasswordModel where TUser : IdentityUser
+    internal class ChangePasswordModel<TUser, TKey> : ChangePasswordModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly SignInManager<TUser> _signInManager;

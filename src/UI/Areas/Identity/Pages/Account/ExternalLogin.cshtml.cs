@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
 {
-    [IdentityDefaultUI(typeof(ExternalLoginModel<>))]
+    [IdentityDefaultUI(typeof(ExternalLoginModel<,>))]
     public class ExternalLoginModel : PageModel
     {
         [BindProperty]
@@ -40,7 +40,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
         public virtual Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null) => throw new NotImplementedException();
     }
 
-    internal class ExternalLoginModel<TUser> : ExternalLoginModel where TUser : IdentityUser, new()
+    internal class ExternalLoginModel<TUser, TKey> : ExternalLoginModel
+        where TUser : IdentityUser<TKey>, new()
+        where TKey : IEquatable<TKey>
     {
         private readonly SignInManager<TUser> _signInManager;
         private readonly UserManager<TUser> _userManager;

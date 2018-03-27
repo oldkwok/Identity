@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
 {
     [AllowAnonymous]
-    [IdentityDefaultUI(typeof(LogoutModel<>))]
+    [IdentityDefaultUI(typeof(LogoutModel<,>))]
     public abstract class LogoutModel : PageModel
     {
         public void OnGet()
@@ -21,7 +21,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
         public virtual Task<IActionResult> OnPost(string returnUrl = null) => throw new NotImplementedException();
     }
 
-    internal class LogoutModel<TUser> : LogoutModel where TUser : IdentityUser
+    internal class LogoutModel<TUser, TKey> : LogoutModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly SignInManager<TUser> _signInManager;
         private readonly ILogger<LogoutModel> _logger;

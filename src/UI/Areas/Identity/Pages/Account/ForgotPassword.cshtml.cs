@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
 {
     [AllowAnonymous]
-    [IdentityDefaultUI(typeof(ForgotPasswordModel<>))]
+    [IdentityDefaultUI(typeof(ForgotPasswordModel<,>))]
     public abstract class ForgotPasswordModel : PageModel
     {
         [BindProperty]
@@ -29,7 +29,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
         public virtual Task<IActionResult> OnPostAsync() => throw new NotImplementedException();
     }
 
-    internal class ForgotPasswordModel<TUser> : ForgotPasswordModel where TUser : IdentityUser
+    internal class ForgotPasswordModel<TUser, TKey> : ForgotPasswordModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly IEmailSender _emailSender;

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(ResetAuthenticatorModel<>))]
+    [IdentityDefaultUI(typeof(ResetAuthenticatorModel<,>))]
     public abstract class ResetAuthenticatorModel : PageModel
     {
         [TempData]
@@ -20,7 +20,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
         public virtual Task<IActionResult> OnPostAsync() => throw new NotImplementedException();
     }
 
-    internal class ResetAuthenticatorModel<TUser> : ResetAuthenticatorModel where TUser : IdentityUser
+    internal class ResetAuthenticatorModel<TUser, TKey> : ResetAuthenticatorModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         UserManager<TUser> _userManager;
         private readonly SignInManager<TUser> _signInManager;

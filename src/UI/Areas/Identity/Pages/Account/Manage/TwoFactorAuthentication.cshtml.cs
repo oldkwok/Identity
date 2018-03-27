@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(TwoFactorAuthenticationModel<>))]
+    [IdentityDefaultUI(typeof(TwoFactorAuthenticationModel<,>))]
     public abstract class TwoFactorAuthenticationModel : PageModel
     {
         public bool HasAuthenticator { get; set; }
@@ -30,7 +30,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 
     }
 
-    internal class TwoFactorAuthenticationModel<TUser> : TwoFactorAuthenticationModel where TUser : IdentityUser
+    internal class TwoFactorAuthenticationModel<TUser, TKey> : TwoFactorAuthenticationModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly SignInManager<TUser> _signInManager;

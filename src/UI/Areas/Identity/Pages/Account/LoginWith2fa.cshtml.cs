@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
 {
     [AllowAnonymous]
-    [IdentityDefaultUI(typeof(LoginWith2faModel<>))]
+    [IdentityDefaultUI(typeof(LoginWith2faModel<,>))]
     public abstract class LoginWith2faModel : PageModel
     {
         [BindProperty]
@@ -39,7 +39,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
         public virtual Task<IActionResult> OnPostAsync(bool rememberMe, string returnUrl = null) => throw new NotImplementedException();
     }
 
-    internal class LoginWith2faModel<TUser> : LoginWith2faModel where TUser : IdentityUser
+    internal class LoginWith2faModel<TUser, TKey> : LoginWith2faModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly SignInManager<TUser> _signInManager;
         private readonly ILogger<LoginWith2faModel> _logger;

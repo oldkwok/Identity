@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(IndexModel<>))]
+    [IdentityDefaultUI(typeof(IndexModel<,>))]
     public abstract class IndexModel : PageModel
     {
         public string Username { get; set; }
@@ -42,7 +42,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
         public virtual Task<IActionResult> OnPostSendVerificationEmailAsync() => throw new NotImplementedException();
     }
 
-    internal class IndexModel<TUser> : IndexModel where TUser : IdentityUser
+    internal class IndexModel<TUser, TKey> : IndexModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly SignInManager<TUser> _signInManager;

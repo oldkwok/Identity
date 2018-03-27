@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(DeletePersonalDataModel<>))]
+    [IdentityDefaultUI(typeof(DeletePersonalDataModel<,>))]
     public abstract class DeletePersonalDataModel : PageModel
     {
         [BindProperty]
@@ -30,7 +30,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
         public virtual Task<IActionResult> OnPostAsync() => throw new NotImplementedException();
     }
 
-    internal class DeletePersonalDataModel<TUser> : DeletePersonalDataModel where TUser : IdentityUser
+    internal class DeletePersonalDataModel<TUser, TKey> : DeletePersonalDataModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly SignInManager<TUser> _signInManager;

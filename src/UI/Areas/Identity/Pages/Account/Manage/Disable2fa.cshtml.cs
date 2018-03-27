@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(Disable2faModel<>))]
+    [IdentityDefaultUI(typeof(Disable2faModel<,>))]
     public abstract class Disable2faModel : PageModel
     {
         [TempData]
@@ -20,7 +20,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
         public virtual Task<IActionResult> OnPostAsync() => throw new NotImplementedException();
     }
 
-    internal class Disable2faModel<TUser> : Disable2faModel where TUser : IdentityUser
+    internal class Disable2faModel<TUser, TKey> : Disable2faModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly ILogger<Disable2faModel> _logger;

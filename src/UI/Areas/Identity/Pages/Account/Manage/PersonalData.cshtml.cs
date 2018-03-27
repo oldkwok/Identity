@@ -9,13 +9,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(PersonalDataModel<>))]
+    [IdentityDefaultUI(typeof(PersonalDataModel<,>))]
     public abstract class PersonalDataModel : PageModel
     {
         public virtual Task<IActionResult> OnGet() => throw new NotImplementedException();
     }
 
-    internal class PersonalDataModel<TUser> : PersonalDataModel where TUser : IdentityUser
+    internal class PersonalDataModel<TUser, TKey> : PersonalDataModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;

@@ -13,13 +13,15 @@ using Newtonsoft.Json;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Manage.Internal
 {
-    [IdentityDefaultUI(typeof(DownloadPersonalDataModel<>))]
+    [IdentityDefaultUI(typeof(DownloadPersonalDataModel<,>))]
     public abstract class DownloadPersonalDataModel : PageModel
     {
         public virtual Task<IActionResult> OnPostAsync() => throw new NotImplementedException();
     }
 
-    internal class DownloadPersonalDataModel<TUser> : DownloadPersonalDataModel where TUser : IdentityUser
+    internal class DownloadPersonalDataModel<TUser, TKey> : DownloadPersonalDataModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;

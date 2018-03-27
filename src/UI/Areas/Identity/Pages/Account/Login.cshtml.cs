@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
 {
     [AllowAnonymous]
-    [IdentityDefaultUI(typeof(LoginModel<>))]
+    [IdentityDefaultUI(typeof(LoginModel<,>))]
     public abstract class LoginModel : PageModel
     {
         [BindProperty]
@@ -47,7 +47,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
         public virtual Task<IActionResult> OnPostAsync(string returnUrl = null) => throw new NotImplementedException();
     }
 
-    internal class LoginModel<TUser> : LoginModel where TUser : IdentityUser
+    internal class LoginModel<TUser, TKey> : LoginModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly SignInManager<TUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;

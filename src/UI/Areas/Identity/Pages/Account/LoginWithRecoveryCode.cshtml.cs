@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
 {
     [AllowAnonymous]
-    [IdentityDefaultUI(typeof(LoginWithRecoveryCodeModel<>))]
+    [IdentityDefaultUI(typeof(LoginWithRecoveryCodeModel<,>))]
     public abstract class LoginWithRecoveryCodeModel : PageModel
     {
         [BindProperty]
@@ -34,7 +34,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
         public virtual Task<IActionResult> OnPostAsync(string returnUrl = null) => throw new NotImplementedException();
     }
 
-    internal class LoginWithRecoveryCodeModel<TUser> : LoginWithRecoveryCodeModel where TUser : IdentityUser
+    internal class LoginWithRecoveryCodeModel<TUser, TKey> : LoginWithRecoveryCodeModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly SignInManager<TUser> _signInManager;
         private readonly ILogger<LoginWithRecoveryCodeModel> _logger;

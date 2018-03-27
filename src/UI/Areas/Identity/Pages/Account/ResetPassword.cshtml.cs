@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
 {
-    [IdentityDefaultUI(typeof(ResetPasswordModel<>))]
+    [IdentityDefaultUI(typeof(ResetPasswordModel<,>))]
     public abstract class ResetPasswordModel : PageModel
     {
         [BindProperty]
@@ -40,7 +40,9 @@ namespace Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal
         public virtual Task<IActionResult> OnPostAsync() => throw new NotImplementedException();
     }
 
-    internal class ResetPasswordModel<TUser> : ResetPasswordModel where TUser : IdentityUser
+    internal class ResetPasswordModel<TUser, TKey> : ResetPasswordModel
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly UserManager<TUser> _userManager;
 
